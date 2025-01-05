@@ -178,3 +178,7 @@ output "blazor_web_app_url" {
 output "cosmos_db_name" {
   value = azurerm_cosmosdb_account.cosmos_db.name
 }
+
+output "uami_github_client_id" {
+  value = azurerm_user_assigned_identity.uami_github.client_id
+}
