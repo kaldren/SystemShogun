@@ -1,0 +1,139 @@
+  [
+    {
+    "id": "1",
+    "title": "Star Wanderers",
+    "genre": "Sci-Fi",
+    "releaseYear": 2023,
+    "rating": 8.5,
+    "cast": [
+      "Liam Anderson",
+      "Sophia Martinez",
+      "Elliot Cruz"
+    ],
+    "director": "Jane Doe",
+    "durationMinutes": 145,
+    "language": "English"
+  },
+  {
+    "id": "2",
+    "title": "Echo of Eternity",
+    "genre": "Drama",
+    "releaseYear": 2023,
+    "rating": 8.2,
+    "cast": ["Noah Bennett", "Emma Clark"],
+    "language": "English"
+  },
+  {
+    "id": "3",
+    "title": "The Crimson Mask",
+    "genre": "Thriller",
+    "releaseYear": 2023,
+    "rating": 7.9,
+    "director": "Alex Green",
+    "durationMinutes": 123,
+    "language": "Spanish",
+    "specialFeatures": {
+      "hasSubtitles": true,
+      "audio": ["Dolby Atmos", "Stereo"]
+    }
+  },
+  {
+    "id": "4",
+    "title": "Chasing Shadows",
+    "genre": "Action",
+    "releaseYear": 2022,
+    "rating": 7.5,
+    "cast": ["Michael Green"],
+    "director": "Sam Wilson",
+    "language": "Spanish",
+    "specialFeatures": {
+      "has4K": true,
+      "audio": ["Dolby Atmos", "Stereo"]
+    }
+  },
+  {
+    "id": "5",
+    "title": "The Last Harvest",
+    "genre": "Drama",
+    "releaseYear": 2022,
+    "rating": 8.3,
+    "language": "Italian",
+    "reviews": [
+      {"user": "Anna", "comment": "A touching story.", "rating": 9},
+      {"user": "Mark", "comment": "Too slow for me.", "rating": 7}
+    ]
+  },
+  {
+    "id": "6",
+    "title": "Winds of Change",
+    "genre": "Adventure",
+    "releaseYear": 2022,
+    "rating": 8.1,
+    "cast": [
+      "Isabella White",
+      "Jacob Harris"
+    ],
+    "director": "Sophia Davis",
+    "durationMinutes": 137,
+    "language": "English"
+  },
+  {
+    "id": "7",
+    "title": "Dreamweaver",
+    "genre": "Fantasy",
+    "releaseYear": 2021,
+    "rating": 8.1,
+    "cast": [
+      "Ethan Scott",
+      "Grace King",
+      "Sophia Harris",
+      "Emma Wilson"
+    ],
+    "durationMinutes": 140,
+    "language": "English",
+    "trailerLink": "https://trailers.example.com/dreamweaver"
+  },
+  {
+    "id": "8",
+    "title": "The Timekeeper",
+    "genre": "Fantasy",
+    "releaseYear": 2021,
+    "rating": 8.0,
+    "cast": [
+      "Noah White",
+      "Olivia Davis",
+      "Charlotte Clark"
+    ],
+    "director": "Alice Evans",
+    "durationMinutes": 130,
+    "language": "English",
+    "boxOfficeMillionUSD": 500
+  },
+  {
+    "id": "9",
+    "title": "Silent Nights",
+    "genre": "Thriller",
+    "releaseYear": 2021,
+    "rating": 8.6,
+    "language": "German",
+    "specialFeatures": {
+      "hasSubtitles": true,
+      "commentary": "Director's cut available"
+    }
+  },
+  {
+    "id": "10",
+    "title": "Breaking Waves",
+    "genre": "Adventure",
+    "releaseYear": 2021,
+    "rating": 7.8,
+    "cast": [
+      "Benjamin Young",
+      "Ella Gray"
+    ],
+    "director": "David Parker",
+    "durationMinutes": 160,
+    "language": "English",
+    "awards": ["Best Cinematography 2021"]
+  }
+]

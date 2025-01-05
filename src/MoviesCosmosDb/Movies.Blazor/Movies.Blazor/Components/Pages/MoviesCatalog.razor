@@ -1,0 +1,47 @@
+﻿@page "/catalog"
+@using System.Text.Json
+@using Movies.Blazor.Models
+@attribute [StreamRendering]
+@inject IHttpClientFactory _clientFactory
+
+<h1>All movies catalog</h1>
+
+@if (movies == null)
+{
+    <p><em>Loading the catalog...</em></p>
+}
+else
+{
+    @foreach (var movie in movies)
+    {
+        <div class="card" style="width: 18rem; display: inline-block; margin: 1rem;">
+            <img class="card-img-top" src="https://picsum.photos/id/1/200/300" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@movie.Title</h5>
+                <p class="card-text">@movie.Genre</p>
+                <a href="#" class="btn btn-primary">Watch it now</a>
+            </div>
+        </div>
+    }
+}
+
+
+@code {
+    private List<Movie> movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = _clientFactory.CreateClient("MoviesApi");
+        var response = await client.GetAsync("movies");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            movies = JsonSerializer.Deserialize<List<Movie>>(content, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true })!;
+        }
+        else
+        {
+            // Handle the error
+        }
+    }
+}

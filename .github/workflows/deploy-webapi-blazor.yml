@@ -1,0 +1,91 @@
+name: Build and deploy ASP.Net Core app to an Azure Web App
+
+env:
+  AZURE_WEBAPI_WEBAPP_NAME: 'app-moviesapp-cosmosdb'    # API App Service
+  AZURE_BLAZOR_WEBAPP_NAME: 'app-moviesapp-cosmosdb-blazor' # Blazor App Service
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '9'                 # set this to the .NET Core version to use
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-webapi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure with Managed Identity
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Set up dependency caching for faster builds
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: dotnet publish
+        run: dotnet publish ./src/MoviesCosmosDb/Movies.Api/Movies.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/${{env.AZURE_WEBAPI_WEBAPP_NAME}}
+
+      - name: Deploy Web API to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_WEBAPI_WEBAPP_NAME}}
+          slot-name: Production
+          package: ${{env.DOTNET_ROOT}}/${{env.AZURE_WEBAPI_WEBAPP_NAME}}
+
+  deploy-blazor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure with Managed Identity
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Set up dependency caching for faster builds
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: dotnet publish
+        run: dotnet publish ./src/MoviesCosmosDb/Movies.Blazor/Movies.Blazor/Movies.Blazor.csproj -c Release -o ${{env.DOTNET_ROOT}}/${{env.AZURE_BLAZOR_WEBAPP_NAME}}
+
+      - name: Deploy Web API to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_BLAZOR_WEBAPP_NAME}}
+          slot-name: Production
+          package: ${{env.DOTNET_ROOT}}/${{env.AZURE_BLAZOR_WEBAPP_NAME}}
