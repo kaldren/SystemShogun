@@ -35,3 +35,5 @@ This repository is for:
 2. Checkout the desired branch:
    ```bash
    git checkout <branch-name>
+   ```
+3. Follow the instructions in the respective branch and blog post.
