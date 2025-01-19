@@ -1,0 +1,109 @@
+name: Build, publish, and deploy PrivateFunc
+
+on:
+  push:
+    paths:
+      - "src/PrivateFunc/**"
+    branches:
+      - "privatefunc"
+
+env:
+  BUILD_CONFIGURATION: Release
+  DOTNET_VERSION: 8.0
+  ARTIFACT_NAME: PrivateFunc
+  APP_SERVICE_NAME: my-func-app123 # Replace with your function app name
+  APP_PATH: src/PrivateFunc
+  APP_PUBLISH_PATH: publish/PrivateFunc
+
+  STORAGE_ACCOUNT: rgmyapp840a # Replace with your function app storage account name
+  CONTAINER: deployments # Replace with your deployment container name
+  RESOURCE_GROUP: rg-myapp # Replace with your resource group name
+
+jobs:
+  build:
+    name: Build PrivateFunc
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: dotnet build and publish
+        run: |
+          dotnet restore ${{ env.APP_PATH }}
+          dotnet build ${{ env.APP_PATH }} -c ${{ env.BUILD_CONFIGURATION }}
+          dotnet publish ${{ env.APP_PATH }} -c ${{ env.BUILD_CONFIGURATION }} --property:PublishDir=${{ env.APP_PUBLISH_PATH }} --no-self-contained
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/${{ env.APP_PATH}}/${{ env.APP_PUBLISH_PATH }}
+          if-no-files-found: error
+          include-hidden-files: true
+
+  deploy:
+    name: Deploy PrivateFunc
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+
+    steps:
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ./${{ env.ARTIFACT_NAME }}
+
+      # This step is especially important if you're deploying to Function Apps running on Windows !!! (Will do a post about it)
+      - name: Create ZIP File from Artifact
+        run: |
+          cd ${{ env.ARTIFACT_NAME }} && zip -r ../app.zip . .azurefunctions
+        shell: bash
+
+      - name: Extract Subscription ID
+        run: |
+          echo "SUBSCRIPTION_ID=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | jq -r '.subscriptionId')" >> $GITHUB_ENV
+
+      - name: Upload Application to Azure Storage
+        run: |
+          EXPIRY=$(date -u -d "1 day" '+%Y-%m-%dT%H:%M:%SZ')
+          az storage blob upload \
+            --account-name ${{ env.STORAGE_ACCOUNT }} \
+            -c ${{ env.CONTAINER }} \
+            -f app.zip \
+            --overwrite true
+          
+          APP_URL=$(az storage blob generate-sas \
+            --full-uri \
+            --permissions r \
+            --expiry $EXPIRY \
+            --account-name ${{ env.STORAGE_ACCOUNT }} \
+            -c ${{ env.CONTAINER }} \
+            -n app.zip | xargs)
+
+          echo "APP_URL=${APP_URL}" >> $GITHUB_ENV
+          echo "Generated Application URL: $APP_URL"
+
+      - name: Deploy Application
+        run: |
+          az rest --method PUT \
+            --uri https://management.azure.com/subscriptions/${{ env.SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.APP_SERVICE_NAME }}/extensions/onedeploy?api-version=2022-03-01 \
+            --body '{
+              "properties": {
+                "packageUri": "'"${{ env.APP_URL }}"'",
+                "type": "zip"
+              }
+            }'
