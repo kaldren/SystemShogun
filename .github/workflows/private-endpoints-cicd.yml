@@ -11,7 +11,7 @@ env:
   BUILD_CONFIGURATION: Release
   DOTNET_VERSION: 8.0
   ARTIFACT_NAME: PrivateFunc
-  APP_SERVICE_NAME: my-func-app123 # Replace with your function app name
+  APP_SERVICE_NAME: my-func-app123 # Replace with your function app name in Azure
   APP_PATH: src/PrivateFunc
   APP_PUBLISH_PATH: publish/PrivateFunc
 
