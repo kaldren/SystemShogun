@@ -17,6 +17,29 @@ This repository is for:
 - **DevOps Engineers** who want to automate cloud deployments.
 - **Learners** eager to understand modern tools like Terraform, GitHub Actions, and Azure.
 
+## Blog content
+
+#### Deploy from GitHub Actions to Function App behind private endpoints (or completely disabled for public access)
+This branch provides a step-by-step guide on how to deploy your application to an Azure Function App that is behind private endpoints or completely disabled for public access. It includes configurations and best practices for setting up private access while maintaining secure and efficient deployment processes.
+
+#### Key Features:
+- Deploying Function Apps with private endpoints or completely restricted public access
+- Restricting public access to Azure Function Apps
+- Configuring deployment using GitHub Actions
+
+For a detailed guide, check out the blog post: [GitHub Actions and Private Endpoints](https://systemshogun.com/p/github-actions-and-private-endpoints)
+
+#### Use Federated Identity in Microsoft Azure to Authenticate with GitHub Actions
+This branch provides a step-by-step guide on how to deploy your application using Federated Identity, eliminating the need for storing credentials or secrets in your CI/CD pipeline.
+
+#### Key Features:
+- Deploying to Azure using Federated Identity integration
+- Setting up GitHub Actions to authenticate securely with Azure
+- Using Terraform to automate infrastructure deployment
+- Improving security by removing the need for storing credentials
+
+For a detailed guide, check out the blog post: [How I Deployed My App to Azure with GitHub Actions, Terraform, and NO CREDENTIALS](https://systemshogun.com/p/how-i-deployed-my-app-to-azure-with)
+
 ## How to Use This Repository
 
 1. **Clone the Repo:**
