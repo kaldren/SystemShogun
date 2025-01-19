@@ -3,9 +3,9 @@ name: Build, publish, and deploy PrivateFunc
 on:
   push:
     paths:
-      - "src/PrivateFunc/**"
+      - "src/PrivateFunc/**" # Replace with your function app path
     branches:
-      - "privatefunc"
+      - "private-endpoints-cicd" # Replace with your branch name
 
 env:
   BUILD_CONFIGURATION: Release
