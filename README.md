@@ -17,60 +17,23 @@ This repository is for:
 - **DevOps Engineers** who want to automate cloud deployments.
 - **Learners** eager to understand modern tools like Terraform, GitHub Actions, and Azure.
 
-## Blog content
+## Branches & Blog Posts
 
-#### Deploy from GitHub Actions to Function App behind private endpoints (or completely disabled for public access)
-This branch provides a step-by-step guide on how to deploy your application to an Azure Function App that is behind private endpoints or completely disabled for public access. It includes configurations and best practices for setting up private access while maintaining secure and efficient deployment processes.
+### `private-endpoints-cicd`
+**Deploy to an Azure Function App behind private endpoints using GitHub Actions.**  
+[GitHub Actions and Private Endpoints](https://systemshogun.com/p/github-actions-and-private-endpoints)
 
-#### Key Features:
-- Deploying Function Apps with private endpoints or completely restricted public access
-- Restricting public access to Azure Function Apps
-- Configuring deployment using GitHub Actions
-
-For a detailed guide, check out the blog post: [GitHub Actions and Private Endpoints](https://systemshogun.com/p/github-actions-and-private-endpoints)
-
-#### Use Federated Identity in Microsoft Azure to Authenticate with GitHub Actions
-This branch provides a step-by-step guide on how to deploy your application using Federated Identity, eliminating the need for storing credentials or secrets in your CI/CD pipeline.
-
-#### Key Features:
-- Deploying to Azure using Federated Identity integration
-- Setting up GitHub Actions to authenticate securely with Azure
-- Using Terraform to automate infrastructure deployment
-- Improving security by removing the need for storing credentials
-
-For a detailed guide, check out the blog post: [How I Deployed My App to Azure with GitHub Actions, Terraform, and NO CREDENTIALS](https://systemshogun.com/p/how-i-deployed-my-app-to-azure-with)
+### `federated-identity-cicd`
+**Use Federated Identity to authenticate GitHub Actions with Azure—no credentials required.**  
+[How I Deployed My App to Azure with GitHub Actions, Terraform, and NO CREDENTIALS](https://systemshogun.com/p/how-i-deployed-my-app-to-azure-with)
 
 ## How to Use This Repository
-
-1. **Clone the Repo:**
+1. Clone the repository:
    ```bash
-   git clone https://github.com/kaldren/SystemShogun.git
-   cd SystemShogun
+   git clone https://github.com/kaldren/MyPlayground.git
    ```
-
-2. **Explore Examples:**
-   Each folder is organized by topic or project, so you can easily find the example you're looking for.
-
-3. **Follow the Blog Posts:**
-   For detailed explanations, follow along with the blog posts linked in the `README` of each project folder.
-
-4. **Customize and Experiment:**
-   Modify the examples to fit your use case or experiment with different configurations.
-
-## Contributions
-
-Feel free to:
-- Open issues for any questions or improvements.
-- Submit pull requests with additional examples or enhancements.
-- Share your feedback to help improve the repository.
-
-## License
-
-This repository is licensed under the **MIT License**. You are free to use, modify, and distribute the code, but attribution is appreciated.
-
-## Contact
-
-If you have any questions or just want to connect:
-- Visit my blog: [SystemShogun Blog](https://systemshogun.com/)
-- Say HI on [LinkedIn](https://linkedin.com/in/kdrenski/)
-- Email: [your-email@example.com](mailto:kaloyandrenski@gmail.com)
+2. Checkout the desired branch:
+   ```bash
+   git checkout <branch-name>
+   ```
+3. Follow the instructions in the respective branch README or documentation to deploy and configure your Azure services.
